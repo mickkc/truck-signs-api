@@ -1,12 +1,14 @@
-FROM python:2.12
+FROM python:3.13-slim-trixie
 
 WORKDIR /app
 
 COPY requirements.txt .
-RUN pip install
+RUN pip install -r requirements.txt
 
 COPY . /app
 
-EXPOSE
+RUN chmod +x entrypoint.sh
 
-ENTRYPOINT ["entrypoint.sh"]
+EXPOSE 8000
+
+ENTRYPOINT ["/app/entrypoint.sh"]
