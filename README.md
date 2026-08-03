@@ -17,6 +17,10 @@ The store also allows clients to upload their own designs and to customize them 
   - [Table of Contents](#table-of-contents)
   - [Prerequisites](#prerequisites)
   - [Quickstart](#quickstart)
+    - [Locally](#locally)
+    - [Docker](#docker)
+      - [Building the image](#building-the-image)
+      - [Docker Compose](#docker-compose)
   - [Usage](#usage)
     - [Settings](#settings)
     - [Models](#models)
@@ -37,6 +41,8 @@ The store also allows clients to upload their own designs and to customize them 
 * [Git](https://git-scm.com/install/)
 
 ## Quickstart
+
+### Locally
 
 1. Clone the repo:
     ```bash
@@ -79,6 +85,51 @@ The store also allows clients to upload their own designs and to customize them 
     ```bash
     python src/manage.py runserver
     ```
+
+### Docker
+
+#### Building the image
+
+1. Ensure you have [Docker](https://docs.docker.com/get-started/get-docker/) installed on your system:
+    ```bash
+    docker -v
+    ```
+2. Clone the repo:
+    ```bash
+    git clone git@github.com:mickkc/truck-signs-api.git
+    cd truck-signs-api
+    ```
+3. Build the image using `docker build`:
+    ```bash
+    docker build -t "track-signs-api" .
+    ```
+
+#### Docker Compose
+
+When using Docker Compose, you do not need to build the image.
+It automatically pulls and uses the image published on the GitHub Container Registry (ghcr).
+
+1. Ensure you have [Docker](https://docs.docker.com/get-started/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install) installed on your system:
+    ```bash
+    docker -v
+    docker compose version
+    ```
+2. Clone the repo:
+    ```bash
+    git clone git@github.com:mickkc/truck-signs-api.git
+    cd truck-signs-api
+    ```
+3. Copy and edit the [example .env](example.env) file:
+    ```bash
+    cp example.env .env
+    nano .env
+    ```
+4. Start the containers using `docker compose`:
+    ```bash
+    docker compose up -d
+    ```
+5. By default, the backend container's port is mapped to `8020`, so the application will be reachable at
+    http://localhost:8020 on the host machine.
 
 ## Usage
 
