@@ -39,46 +39,46 @@ The store also allows clients to upload their own designs and to customize them 
 ## Quickstart
 
 1. Clone the repo:
-```bash
-git clone git@github.com:Developer-Akademie-DevSecOpsKurs/truck-signs-api.git
-cd truck-signs-api
-```
+    ```bash
+    git clone git@github.com:mickkc/truck-signs-api.git
+    cd truck-signs-api
+    ```
 
 2. Copy the content of the example.env file into a .env file:
-```bash
-cp example.env .env
-```
+    ```bash
+    cp example.env .env
+    ```
 
 3. Create virtual environment:
-```bash
-python -m venv <venv_name>
-```
+    ```bash
+    python -m venv <venv_name>
+    ```
 
 4. Activate virtual environment:
-```bash
-source <venv_name>/scripts/activate
-```
+    ```bash
+    source <venv_name>/scripts/activate
+    ```
 
 5. Install requirements:
-```bash
-pip install -r requirements.txt
-```
+    ```bash
+    pip install -r requirements.txt
+    ```
 
 6. Migrate database:
-```bash
-python src/manage.py makemigrations
-python src/manage.py migrate
-```
+    ```bash
+    python src/manage.py makemigrations
+    python src/manage.py migrate
+    ```
 
 7. Collect static files:
-```bash
-python src/manage.py collectstatic
-```
+    ```bash
+    python src/manage.py collectstatic
+    ```
 
 8. Start the Python Development Server:
-```bash
-python src/manage.py runserver
-```
+    ```bash
+    python src/manage.py runserver
+    ```
 
 ## Usage
 
@@ -116,15 +116,15 @@ The behavior of some of the views had to be modified to address functionalities 
 
 1. Clone the repo:
     ```bash
-    git clone <INSERT URL>
+    git clone git@github.com:mickkc/truck-signs-api.git
     cd truck-signs-api
     ```
-1. Configure a virtual env
+2. Configure a virtual env
     ```bash
     python -m venv venv
     venv\Scripts\activate
     ```
-1. Configure the environment variables.
+3. Configure the environment variables.
     1. Copy the content of the `example.env` file that is on projects root level into a `.env` file:
         ```bash
         cp example.env .env
@@ -151,24 +151,24 @@ The behavior of some of the views had to be modified to address functionalities 
     4. The SECRET_KEY is the django secret key. To generate a new one see: [Stackoverflow Link](https://stackoverflow.com/questions/41298963/is-there-a-function-for-generating-settings-secret-key-in-django)
 
     5. The `EMAIL_HOST_USER` and the `EMAIL_HOST_PASSWORD` are the credentials to send emails from the website when a client makes a purchase. This is currently disable, but the code to activate this can be found in views.py in the create order view as comments. Therefore, any valid email and password will work.
-1. Run the migrations:
+4. Run the migrations:
     ```bash
     python src/manage.py makemigrations
     python src/manage.py migrate
     ```
-1. Collect static files:
+5. Collect static files:
     ```bash
     python src/manage.py collectstatic
     ```
-1. Run the app:
+6. Run the app:
     ```bash
     python src/manage.py runserver
     ```
-1. (Optional step) To create a super user run:
+7. (Optional step) To create a super user run:
     ```bash
     python src/manage.py createsuperuser
     ```
-1. (Optional step) Set up the database. [Django database setup example](https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-16-04).
+8. (Optional step) Set up the database. [Django database setup example](https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-16-04).
 
 Congratulations =) !!! The App should be running in [localhost:8000](http://localhost:8000)
 
