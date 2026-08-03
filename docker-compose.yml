@@ -6,7 +6,7 @@ services:
     networks:
       - tsa-network
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql
     restart: unless-stopped
     healthcheck:
       test:
@@ -26,6 +26,8 @@ services:
       - tsa-network
     ports:
       - '8020:8000'
+    env_file:
+      - .env
     environment:
       MODE: prod
       DEBUG_ENABLED: 'False'
