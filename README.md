@@ -20,6 +20,7 @@ The store also allows clients to upload their own designs and to customize them 
     - [Locally](#locally)
     - [Docker](#docker)
       - [Building the image](#building-the-image)
+      - [Docker run](#docker-run)
       - [Docker Compose](#docker-compose)
   - [Usage](#usage)
     - [Settings](#settings)
@@ -104,7 +105,7 @@ The store also allows clients to upload their own designs and to customize them 
     docker build -t "truck-signs-api" .
     ```
 
-### Docker run
+#### Docker run
 
 1. Ensure you have [Docker](https://docs.docker.com/get-started/get-docker/) installed on your system:
     ```bash
@@ -160,6 +161,18 @@ The store also allows clients to upload their own designs and to customize them 
     docker build -t "truck-signs-api" .
     ```
 8. Run the backend container:
+    ```bash
+    docker run \
+      --network=truck-signs-api-net \
+      -v "./src/staticfiles:/app/src/staticfiles" \
+      -v "./src/media:/app/src/media" \
+      --env-file .env \
+      --restart unless-stopped \
+      -p '8020:8000' \
+      -d truck-signs-api
+    ```
+9. The backend container's port is mapped to `8020`, so the application will be reachable at
+   http://localhost:8020 on the host machine (The admin UI will be at http://localhost:8020/admin).
 
 #### Docker Compose
 
@@ -186,7 +199,7 @@ this locally built image.
     docker compose up -d
     ```
 5. By default, the backend container's port is mapped to `8020`, so the application will be reachable at
-    http://localhost:8020 on the host machine.
+    http://localhost:8020 on the host machine (The admin UI will be at http://localhost:8020/admin).
 
 ## Usage
 
