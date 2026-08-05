@@ -101,8 +101,65 @@ The store also allows clients to upload their own designs and to customize them 
     ```
 3. Build the image using `docker build`:
     ```bash
-    docker build -t "track-signs-api" .
+    docker build -t "truck-signs-api" .
     ```
+
+### Docker run
+
+1. Ensure you have [Docker](https://docs.docker.com/get-started/get-docker/) installed on your system:
+    ```bash
+    docker -v
+    ```
+2. Clone the repo:
+    ```bash
+    git clone git@github.com:mickkc/truck-signs-api.git
+    cd truck-signs-api
+    ```
+3. Copy and edit the [example .env](example.env) file:
+    ```bash
+    cp example.env .env
+    nano .env
+    ```
+   > [!TIP]
+   > By default, in this section, the database will have a hostname of `db` and run on port 5432, so you can add these
+   > these values to your `.env` like this:
+   > ```env
+   > DB_HOST=db
+   > DB_PORT=5432
+   >  ```
+
+4. This application consists of two services: The backend and the database. Because the database needs to be reachable
+   by the backend, we need to create a network, which we will add both containers to:
+    ```bash
+    docker network create truck-signs-api-net
+    ```
+5. You will also need a volume that will be used to store and persist the database:
+    ```bash
+   docker volume create truck-signs-api-vol
+   ```
+6. Start the database container:
+    ```bash
+    sudo docker run \                                                                                                                                                                                         ✔  4s  󰌠 3.14.6
+      --network=truck-signs-api-net \
+      --hostname=db \
+      -v "truck-signs-api-vol:/var/lib/postgresql" \
+      -e 'POSTGRES_USER=tracksigns-user' \
+      -e 'POSTGRES_PASSWORD=example-password' \
+      -e 'POSTGRES_DB=truck-signs' \
+      --env-file .env \
+      --restart unless-stopped \
+      -d \
+      postgres:18.4
+    ```
+    > [!IMPORTANT] 
+    > Make sure the database configuration (`POSTGRES_USER`, `POSTGRES_PASSWORD` and `POSTGRES_DB`) are the same as the
+    > ones you specified in your `.env`-file.
+
+7. [Build the backend image](#building-the-image):
+    ```bash
+    docker build -t "truck-signs-api" .
+    ```
+8. Run the backend container:
 
 #### Docker Compose
 
