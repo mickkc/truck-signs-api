@@ -106,8 +106,8 @@ The store also allows clients to upload their own designs and to customize them 
 
 #### Docker Compose
 
-When using Docker Compose, you do not need to build the image.
-It automatically pulls and uses the image published on the GitHub Container Registry (ghcr).
+Before using docker compose, you need to [build the image manually](#building-the-image), as the backend service uses
+this locally built image.
 
 1. Ensure you have [Docker](https://docs.docker.com/get-started/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install) installed on your system:
     ```bash
