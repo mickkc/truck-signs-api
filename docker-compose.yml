@@ -2,7 +2,6 @@ services:
   db:
     image: postgres:18.4
     container_name: tsa_db
-    env_file: .env
     networks:
       - tsa-network
     volumes:
@@ -11,13 +10,10 @@ services:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB:  ${DB_NAME}
+    env_file: .env
     restart: unless-stopped
     healthcheck:
-      test:
-        [
-          'CMD-SHELL',
-          'pg_isready -U ${DB_USER} -d ${DB_NAME}',
-        ]
+      test: [ 'CMD-SHELL', 'pg_isready -U ${DB_USER} -d ${DB_NAME}' ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -27,14 +23,13 @@ services:
     container_name: tsa_backend
     networks:
       - tsa-network
-    ports:
-      - '8020:8000'
-    env_file:
-      - .env
-    restart: unless-stopped
     volumes:
       - ./src/staticfiles:/app/src/staticfiles
       - ./src/media:/app/src/media
+    ports:
+      - '8020:8000'
+    env_file: .env
+    restart: unless-stopped
     depends_on:
       db:
         condition: service_healthy
