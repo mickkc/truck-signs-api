@@ -121,13 +121,13 @@ The store also allows clients to upload their own designs and to customize them 
     cp example.env .env
     nano .env
     ```
-   > [!TIP]
-   > By default, in this section, the database will have a hostname of `db` and run on port 5432, so you can add these
-   > these values to your `.env` like this:
-   > ```env
-   > DB_HOST=db
-   > DB_PORT=5432
-   >  ```
+> [!TIP]
+> By default, in this section, the database will have a hostname of `db` and run on port 5432, so you can add these
+> these values to your `.env` like this:
+> ```env
+> DB_HOST=db
+> DB_PORT=5432
+>  ```
 
 4. This application consists of two services: The backend and the database. Because the database needs to be reachable
    by the backend, we need to create a network, which we will add both containers to:
@@ -152,9 +152,9 @@ The store also allows clients to upload their own designs and to customize them 
       -d \
       postgres:18.4
     ```
-    > [!IMPORTANT] 
-    > Make sure the database configuration (`POSTGRES_USER`, `POSTGRES_PASSWORD` and `POSTGRES_DB`) are the same as the
-    > ones you specified in your `.env`-file.
+> [!IMPORTANT] 
+> Make sure the database configuration (`POSTGRES_USER`, `POSTGRES_PASSWORD` and `POSTGRES_DB`) are the same as the
+> ones you specified in your `.env`-file.
 
 7. [Build the backend image](#building-the-image):
     ```bash
