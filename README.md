@@ -13,28 +13,30 @@ The store also allows clients to upload their own designs and to customize them 
 
 ## Table of Contents
 
-- [Signs for Trucks](#signs-for-trucks)
-  - [Table of Contents](#table-of-contents)
-  - [Prerequisites](#prerequisites)
-  - [Quickstart](#quickstart)
-    - [Locally](#locally)
-    - [Docker](#docker)
-      - [Building the image](#building-the-image)
-      - [Docker run](#docker-run)
-      - [Docker Compose](#docker-compose)
-  - [Usage](#usage)
-    - [Settings](#settings)
-    - [Models](#models)
-    - [Brief Explanation of the Views](#brief-explanation-of-the-views)
-    - [Installation](#installation)
-  - [Screenshots of the Django Backend Admin Panel](#screenshots-of-the-django-backend-admin-panel)
-    - [Mobile View](#mobile-view)
-    - [Desktop View](#desktop-view)
-  - [Additional Information](#additional-information)
-    - [Postgresql Database](#postgresql-database)
-    - [Docker](#docker)
-    - [Django and DRF](#django-and-drf)
-    - [Miscellaneous](#miscellaneous)
+<!-- TOC -->
+* [Signs for Trucks](#signs-for-trucks)
+  * [Table of Contents](#table-of-contents)
+  * [Prerequisites](#prerequisites)
+  * [Quickstart](#quickstart)
+  * [Usage](#usage)
+    * [Docker](#docker)
+      * [Building the image](#building-the-image)
+      * [Docker run](#docker-run)
+      * [Docker Compose](#docker-compose)
+    * [Settings](#settings)
+    * [Control Application Settings via Env-Variables](#control-application-settings-via-env-variables)
+    * [Models](#models)
+    * [Brief Explanation of the Views](#brief-explanation-of-the-views)
+    * [Installation](#installation)
+  * [Screenshots of the Django Backend Admin Panel](#screenshots-of-the-django-backend-admin-panel)
+    * [Mobile View](#mobile-view)
+    * [Desktop View](#desktop-view)
+  * [Additional Information](#additional-information)
+    * [Postgresql Database](#postgresql-database)
+    * [Docker](#docker-1)
+    * [Django and DRF](#django-and-drf)
+    * [Miscellaneous](#miscellaneous)
+<!-- TOC -->
 
 ## Prerequisites
 
@@ -42,8 +44,6 @@ The store also allows clients to upload their own designs and to customize them 
 * [Git](https://git-scm.com/install/)
 
 ## Quickstart
-
-### Locally
 
 1. Clone the repo:
     ```bash
@@ -86,6 +86,8 @@ The store also allows clients to upload their own designs and to customize them 
     ```bash
     python src/manage.py runserver
     ```
+
+## Usage
 
 ### Docker
 
@@ -187,8 +189,6 @@ this locally built image.
     ```
 5. By default, the backend container's port is mapped to `8020`, so the application will be reachable at
     http://localhost:8020 on the host machine (The admin UI will be at http://localhost:8020/admin).
-
-## Usage
 
 ### Settings
 
