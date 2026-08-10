@@ -142,7 +142,6 @@ The store also allows clients to upload their own designs and to customize them 
       -e 'POSTGRES_USER=tracksigns-user' \
       -e 'POSTGRES_PASSWORD=example-password' \
       -e 'POSTGRES_DB=truck-signs' \
-      --env-file .env \
       --restart unless-stopped \
       -d \
       postgres:18.4
