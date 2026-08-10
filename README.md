@@ -42,6 +42,7 @@ The store also allows clients to upload their own designs and to customize them 
 
 * [Python 3.12.0](https://www.python.org/downloads/release/python-3120/)
 * [Git](https://git-scm.com/install/)
+* Optional: [Docker](https://docs.docker.com/get-started/get-docker/) & [Docker Compose](https://docs.docker.com/compose/install)
 
 ## Quickstart
 
