@@ -107,16 +107,8 @@ The store also allows clients to upload their own designs and to customize them 
 
 #### Docker run
 
-1. Ensure you have [Docker](https://docs.docker.com/get-started/get-docker/) installed on your system:
-    ```bash
-    docker -v
-    ```
-2. Clone the repo:
-    ```bash
-    git clone git@github.com:mickkc/truck-signs-api.git
-    cd truck-signs-api
-    ```
-3. Copy and edit the [example .env](example.env) file:
+1. [Build the Docker image](#building-the-image)
+2. Copy and edit the [example .env](example.env) file:
     ```bash
     cp example.env .env
     nano .env
@@ -129,16 +121,16 @@ The store also allows clients to upload their own designs and to customize them 
 > DB_PORT=5432
 >  ```
 
-4. This application consists of two services: The backend and the database. Because the database needs to be reachable
+3. This application consists of two services: The backend and the database. Because the database needs to be reachable
    by the backend, we need to create a network, which we will add both containers to:
     ```bash
     docker network create truck-signs-api-net
     ```
-5. You will also need a volume that will be used to store and persist the database:
+4. You will also need a volume that will be used to store and persist the database:
     ```bash
    docker volume create truck-signs-api-vol
    ```
-6. Start the database container:
+5. Start the database container:
     ```bash
     sudo docker run \                                                                                                                                                                                         ✔  4s  󰌠 3.14.6
       --network=truck-signs-api-net \
@@ -156,11 +148,11 @@ The store also allows clients to upload their own designs and to customize them 
 > Make sure the database configuration (`POSTGRES_USER`, `POSTGRES_PASSWORD` and `POSTGRES_DB`) are the same as the
 > ones you specified in your `.env`-file.
 
-7. [Build the backend image](#building-the-image):
+6. [Build the backend image](#building-the-image):
     ```bash
     docker build -t "truck-signs-api" .
     ```
-8. Run the backend container:
+7. Run the backend container:
     ```bash
     docker run \
       --network=truck-signs-api-net \
@@ -171,7 +163,7 @@ The store also allows clients to upload their own designs and to customize them 
       -p '8020:8000' \
       -d truck-signs-api
     ```
-9. The backend container's port is mapped to `8020`, so the application will be reachable at
+8. The backend container's port is mapped to `8020`, so the application will be reachable at
    http://localhost:8020 on the host machine (The admin UI will be at http://localhost:8020/admin).
 
 #### Docker Compose
@@ -179,15 +171,10 @@ The store also allows clients to upload their own designs and to customize them 
 Before using docker compose, you need to [build the image manually](#building-the-image), as the backend service uses
 this locally built image.
 
-1. Ensure you have [Docker](https://docs.docker.com/get-started/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install) installed on your system:
+1. [Build the Docker image](#building-the-image)
+2. Ensure you have [Docker Compose](https://docs.docker.com/compose/install) installed on your system:
     ```bash
-    docker -v
     docker compose version
-    ```
-2. Clone the repo:
-    ```bash
-    git clone git@github.com:mickkc/truck-signs-api.git
-    cd truck-signs-api
     ```
 3. Copy and edit the [example .env](example.env) file:
     ```bash
