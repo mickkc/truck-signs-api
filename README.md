@@ -135,7 +135,7 @@ The store also allows clients to upload their own designs and to customize them 
    ```
 5. Start the database container:
     ```bash
-    sudo docker run \                                                                                                                                                                                         ✔  4s  󰌠 3.14.6
+    sudo docker run \
       --network=truck-signs-api-net \
       --hostname=db \
       -v "truck-signs-api-vol:/var/lib/postgresql" \
