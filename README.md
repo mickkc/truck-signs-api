@@ -13,74 +13,182 @@ The store also allows clients to upload their own designs and to customize them 
 
 ## Table of Contents
 
-- [Signs for Trucks](#signs-for-trucks)
-  - [Table of Contents](#table-of-contents)
-  - [Prerequisites](#prerequisites)
-  - [Quickstart](#quickstart)
-  - [Usage](#usage)
-    - [Settings](#settings)
-    - [Models](#models)
-    - [Brief Explanation of the Views](#brief-explanation-of-the-views)
-    - [Installation](#installation)
-  - [Screenshots of the Django Backend Admin Panel](#screenshots-of-the-django-backend-admin-panel)
-    - [Mobile View](#mobile-view)
-    - [Desktop View](#desktop-view)
-  - [Additional Information](#additional-information)
-    - [Postgresql Database](#postgresql-database)
-    - [Docker](#docker)
-    - [Django and DRF](#django-and-drf)
-    - [Miscellaneous](#miscellaneous)
+<!-- TOC -->
+* [Signs for Trucks](#signs-for-trucks)
+  * [Table of Contents](#table-of-contents)
+  * [Prerequisites](#prerequisites)
+  * [Quickstart](#quickstart)
+  * [Usage](#usage)
+    * [Docker](#docker)
+      * [Building the image](#building-the-image)
+      * [Docker run](#docker-run)
+      * [Docker Compose](#docker-compose)
+    * [Settings](#settings)
+    * [Control Application Settings via Env-Variables](#control-application-settings-via-env-variables)
+    * [Models](#models)
+    * [Brief Explanation of the Views](#brief-explanation-of-the-views)
+    * [Installation](#installation)
+  * [Screenshots of the Django Backend Admin Panel](#screenshots-of-the-django-backend-admin-panel)
+    * [Mobile View](#mobile-view)
+    * [Desktop View](#desktop-view)
+  * [Additional Information](#additional-information)
+    * [Postgresql Database](#postgresql-database)
+    * [Docker](#docker-1)
+    * [Django and DRF](#django-and-drf)
+    * [Miscellaneous](#miscellaneous)
+<!-- TOC -->
 
 ## Prerequisites
 
 * [Python 3.12.0](https://www.python.org/downloads/release/python-3120/)
 * [Git](https://git-scm.com/install/)
+* Optional: [Docker](https://docs.docker.com/get-started/get-docker/) & [Docker Compose](https://docs.docker.com/compose/install)
 
 ## Quickstart
 
 1. Clone the repo:
-```bash
-git clone git@github.com:Developer-Akademie-DevSecOpsKurs/truck-signs-api.git
-cd truck-signs-api
-```
+    ```bash
+    git clone git@github.com:mickkc/truck-signs-api.git
+    cd truck-signs-api
+    ```
 
 2. Copy the content of the example.env file into a .env file:
-```bash
-cp example.env .env
-```
+    ```bash
+    cp example.env .env
+    ```
 
 3. Create virtual environment:
-```bash
-python -m venv <venv_name>
-```
+    ```bash
+    python -m venv <venv_name>
+    ```
 
 4. Activate virtual environment:
-```bash
-source <venv_name>/scripts/activate
-```
+    ```bash
+    source <venv_name>/scripts/activate
+    ```
 
 5. Install requirements:
-```bash
-pip install -r requirements.txt
-```
+    ```bash
+    pip install -r requirements.txt
+    ```
 
 6. Migrate database:
-```bash
-python src/manage.py makemigrations
-python src/manage.py migrate
-```
+    ```bash
+    python src/manage.py makemigrations
+    python src/manage.py migrate
+    ```
 
 7. Collect static files:
-```bash
-python src/manage.py collectstatic
-```
+    ```bash
+    python src/manage.py collectstatic
+    ```
 
 8. Start the Python Development Server:
-```bash
-python src/manage.py runserver
-```
+    ```bash
+    python src/manage.py runserver
+    ```
 
 ## Usage
+
+### Docker
+
+#### Building the image
+
+1. Ensure you have [Docker](https://docs.docker.com/get-started/get-docker/) installed on your system:
+    ```bash
+    docker -v
+    ```
+2. Clone the repo:
+    ```bash
+    git clone git@github.com:mickkc/truck-signs-api.git
+    cd truck-signs-api
+    ```
+3. Build the image using `docker build`:
+    ```bash
+    docker build -t "truck-signs-api" .
+    ```
+
+#### Docker run
+
+1. [Build the Docker image](#building-the-image)
+2. Copy and edit the [example .env](example.env) file:
+    ```bash
+    cp example.env .env
+    nano .env
+    ```
+> [!TIP]
+> By default, in this section, the database will have a hostname of `db` and run on port 5432, so you can add these
+> these values to your `.env` like this:
+> ```env
+> DB_HOST=db
+> DB_PORT=5432
+>  ```
+
+3. This application consists of two services: The backend and the database. Because the database needs to be reachable
+   by the backend, we need to create a network, which we will add both containers to:
+    ```bash
+    docker network create truck-signs-api-net
+    ```
+4. You will also need a volume that will be used to store and persist the database:
+    ```bash
+   docker volume create truck-signs-api-vol
+   ```
+5. Start the database container:
+    ```bash
+    sudo docker run \
+      --network=truck-signs-api-net \
+      --hostname=db \
+      -v "truck-signs-api-vol:/var/lib/postgresql" \
+      -e 'POSTGRES_USER=tracksigns-user' \
+      -e 'POSTGRES_PASSWORD=example-password' \
+      -e 'POSTGRES_DB=truck-signs' \
+      --restart unless-stopped \
+      -d \
+      postgres:18.4
+    ```
+> [!IMPORTANT] 
+> Make sure the database configuration (`POSTGRES_USER`, `POSTGRES_PASSWORD` and `POSTGRES_DB`) are the same as the
+> ones you specified in your `.env`-file.
+
+6. [Build the backend image](#building-the-image):
+    ```bash
+    docker build -t "truck-signs-api" .
+    ```
+7. Run the backend container:
+    ```bash
+    docker run \
+      --network=truck-signs-api-net \
+      -v "./src/staticfiles:/app/src/staticfiles" \
+      -v "./src/media:/app/src/media" \
+      --env-file .env \
+      --restart unless-stopped \
+      -p '8020:8000' \
+      -d truck-signs-api
+    ```
+8. The backend container's port is mapped to `8020`, so the application will be reachable at
+   http://localhost:8020 on the host machine (The admin UI will be at http://localhost:8020/admin).
+
+#### Docker Compose
+
+Before using docker compose, you need to [build the image manually](#building-the-image), as the backend service uses
+this locally built image.
+
+1. [Build the Docker image](#building-the-image)
+2. Ensure you have [Docker Compose](https://docs.docker.com/compose/install) installed on your system:
+    ```bash
+    docker compose version
+    ```
+3. Copy and edit the [example .env](example.env) file:
+    ```bash
+    cp example.env .env
+    nano .env
+    ```
+4. Start the containers using `docker compose`:
+    ```bash
+    docker compose up -d
+    ```
+5. By default, the backend container's port is mapped to `8020`, so the application will be reachable at
+    http://localhost:8020 on the host machine (The admin UI will be at http://localhost:8020/admin).
 
 ### Settings
 
@@ -116,15 +224,15 @@ The behavior of some of the views had to be modified to address functionalities 
 
 1. Clone the repo:
     ```bash
-    git clone <INSERT URL>
+    git clone git@github.com:mickkc/truck-signs-api.git
     cd truck-signs-api
     ```
-1. Configure a virtual env
+2. Configure a virtual env
     ```bash
     python -m venv venv
     venv\Scripts\activate
     ```
-1. Configure the environment variables.
+3. Configure the environment variables.
     1. Copy the content of the `example.env` file that is on projects root level into a `.env` file:
         ```bash
         cp example.env .env
@@ -151,24 +259,24 @@ The behavior of some of the views had to be modified to address functionalities 
     4. The SECRET_KEY is the django secret key. To generate a new one see: [Stackoverflow Link](https://stackoverflow.com/questions/41298963/is-there-a-function-for-generating-settings-secret-key-in-django)
 
     5. The `EMAIL_HOST_USER` and the `EMAIL_HOST_PASSWORD` are the credentials to send emails from the website when a client makes a purchase. This is currently disable, but the code to activate this can be found in views.py in the create order view as comments. Therefore, any valid email and password will work.
-1. Run the migrations:
+4. Run the migrations:
     ```bash
     python src/manage.py makemigrations
     python src/manage.py migrate
     ```
-1. Collect static files:
+5. Collect static files:
     ```bash
     python src/manage.py collectstatic
     ```
-1. Run the app:
+6. Run the app:
     ```bash
     python src/manage.py runserver
     ```
-1. (Optional step) To create a super user run:
+7. (Optional step) To create a super user run:
     ```bash
     python src/manage.py createsuperuser
     ```
-1. (Optional step) Set up the database. [Django database setup example](https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-16-04).
+8. (Optional step) Set up the database. [Django database setup example](https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-16-04).
 
 Congratulations =) !!! The App should be running in [localhost:8000](http://localhost:8000)
 
