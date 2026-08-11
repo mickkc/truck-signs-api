@@ -10,7 +10,6 @@ services:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB:  ${DB_NAME}
-    env_file: .env
     restart: unless-stopped
     healthcheck:
       test: [ 'CMD-SHELL', 'pg_isready -U ${DB_USER} -d ${DB_NAME}' ]
@@ -19,13 +18,13 @@ services:
       retries: 5
 
   backend:
-    image: truck-signs-api
+    image: truck-signs-api:latest
     container_name: tsa_backend
     networks:
       - tsa-network
     volumes:
-      - ./src/staticfiles:/app/src/staticfiles
-      - ./src/media:/app/src/media
+      - static_files:/app/src/staticfiles
+      - media:/app/src/media
     ports:
       - '8020:8000'
     env_file: .env
@@ -36,6 +35,8 @@ services:
 
 volumes:
   postgres_data:
+  static_files:
+  media:
 
 networks:
   tsa-network:
